@@ -1,0 +1,335 @@
+%----------------------------------------------------------------
+%
+%  File    :  thesis.tex
+%
+%  Authors :  Keith Andrews, IICM, TU Graz, Austria
+%             Manuel Koschuch, FH Campus Wien, Austria
+%			  Sebastian Ukleja, FH Campus Wien, Austria
+% 
+%  Created :  22 Feb 96
+% 
+%  Changed :  14 Oct 2020
+%
+%  For suggestions and remarks write to: sebastian.ukleja@fh-campuswien.ac.at 
+%----------------------------------------------------------------
+
+% --- Setup for the document ------------------------------------
+
+%Class for a book like style:
+\documentclass[11pt,a4paper,oneside]{scrbook}
+%For a more paper like style use this class instead:
+%\documentclass[11pt,a4paper,oneside]{thesis}
+
+%input encoding for windows in utf-8 needed for Ä,Ö,Ü etc..:
+\usepackage[utf8]{inputenc}
+%input encoding for linux:
+%\usepackage[latin1]{inputenc}
+%input encoding for mac:
+%\usepackage[applemac]{inputenc}
+
+\usepackage[ngerman]{babel}
+%for english use this instead:
+%\usepackage[english]{babel}
+
+%needed for font encoding
+\usepackage[T1]{fontenc}
+
+% want Arial? uncomment next two lines...
+%\usepackage{uarial}
+%\renewcommand{\familydefault}{\sfdefault}
+
+%some formatting packages
+\usepackage[bf,sf]{subfigure}
+\renewcommand{\subfigtopskip}{0mm}
+\renewcommand{\subfigcapmargin}{0mm}
+
+%For better font resolution in pdf files
+\usepackage{lmodern}
+
+\usepackage{url}
+
+%\usepackage{latexsym}
+
+\usepackage{geometry} % define pagesize in more detail
+
+% --- Settings for header and footer ---------------------------------
+\usepackage{scrlayer-scrpage}
+\clearscrheadfoot
+\pagestyle{scrheadings}
+\automark{chapter}
+
+%Left header shows chapter and chapter name, will not display on first chapter page use \ihead*{\leftmark} to show on every page
+\ihead{\leftmark} 	
+%\ohead*{\rightmark}	%optional right header
+\ifoot*{Markus Mayer}	%left footer shows student name
+\ofoot*{\thepage}		%right footer shows pagination
+%---------------------------------------------------------------------
+
+\usepackage{colortbl} % define colored backgrounds for tables
+
+\usepackage{courier} %for listings
+\usepackage{listings} % nicer code formatting
+\lstset{basicstyle=\ttfamily,breaklines=true}
+
+\usepackage{graphicx}
+  \pdfcompresslevel=9
+  \pdfpageheight=297mm
+  \pdfpagewidth=210mm
+  \usepackage[         % hyperref should be last package loaded
+    pdftex, 		   % needed for pdf compiling, DO NOT compile with LaTeX
+    bookmarks,
+    bookmarksnumbered,
+    linktocpage,
+    pagebackref,
+    pdfview={Fit},
+    pdfstartview={Fit},
+    pdfpagemode=UseOutlines,                 % open bookmarks in Acrobat
+  ]{hyperref}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\usepackage{bookmark}
+
+\usepackage[title]{appendix}
+
+%paper format
+\geometry{a4paper,left=30mm,right=25mm, top=30mm, bottom=30mm}
+
+\setlength{\parskip}{3pt plus 1pt minus 0pt}       % vert. space before a paragraph
+
+\setcounter{tocdepth}{1}        % lowest section level entered in ToC
+\setcounter{secnumdepth}{2}     % lowest section level still numbered
+
+%Start of your document beginning with title page
+\begin{document}
+
+% --- Main Title Page ------------------------------------------------
+\begin{titlepage}
+\frontmatter
+\begin{picture}(50,50)
+\put(-70,40){\hbox{\includegraphics{images/logo.png}}}
+\end{picture}
+
+\vspace*{-5.8cm}
+
+\begin{center}
+
+\vspace{6.2cm}
+
+\hspace*{-1.0cm} {\LARGE \textbf{Wird Kotlin in Zukunft Java in der Android App Entwicklung ablösen? \\}}
+\vspace{0.2cm}
+\hspace*{-1.0cm} Untertitel \\
+
+\vspace{2.0cm}
+
+\hspace*{-1.0cm} { \textbf{Bachelorarbeit\\}}
+
+\vspace{0.65cm}
+
+\hspace*{-1.0cm} Eingereicht in teilweiser Erfüllung der Anforderungen zur Erlangung des akademischen Grades: \\
+
+\vspace{0.65cm}
+
+\hspace*{-1.0cm} \textbf{Bachelor of Science in Engineering\\}
+
+\vspace{0.65cm}
+
+\hspace*{-1.0cm} an der FH Campus Wien \\
+\vspace{0.2cm}
+\hspace*{-1.0cm} Studienfach: Computer Science and Digital Communications \\
+
+\vspace{1.6cm}
+
+\hspace*{-1.0cm} \textbf{Autor:} \\
+\vspace{0.2cm}
+\hspace*{-1.0cm} Markus Mayer \\
+
+\vspace{0.7cm}
+
+\hspace*{-1.0cm} \textbf{Matrikelnummer:}\\
+\vspace{0.2cm}
+\hspace*{-1.0cm} 52006537 \\
+
+\vspace{0.7cm}
+
+\hspace*{-1.0cm} \textbf{Betreuer:} \\
+\vspace{0.2cm}
+\hspace*{-1.0cm} MSc René Goldschmid \\
+
+\vspace{0.7cm}
+
+% Reviewer if needed:
+%\hspace*{-1.0cm} \textbf{Reviewer: (optional)} \\
+%\vspace{0.2cm}
+%\hspace*{-1.0cm} Titel Vorname Nachname \\
+
+
+\vspace{1.0cm}
+
+\hspace*{-1.0cm} \textbf{Datum:} \\
+\vspace{0.2cm}
+\hspace*{-1.0cm} 25.09.2022 \\
+
+\end{center}
+\end{titlepage}
+
+\newpage
+
+\setcounter{page}{1}
+
+\vspace*{16cm}
+
+% --- Declaration of authorship --------------------------------------------
+\hspace*{-0.7cm} \underline{Erklärung der Urheberschaft:}\\\\
+Ich erkläre hiermit diese Bachelorarbeit eigenständig verfasst zu haben. Ich habe keine anderen Quellen, als die in der Arbeit gelisteten verwendet, noch habe ich jegliche unerlaubte Hilfe in Anspruch genommen\\\\
+Ich versichere diese Bachelorarbeit in keinerlei Form jemandem Anderen oder einer anderen Institution zur Verfügung gestellt zu haben, weder in Österreich noch im Ausland.\\\\
+Weiters versichere ich, dass jegliche Kopie (gedruckt oder digital) identisch ist.
+\\\\\\
+Datum: \hspace{6cm} Unterschrift:\\
+
+% --- English Abstract ----------------------------------------------------
+\cleardoublepage
+\chapter*{Abstract}
+(E.g. ``This thesis investigates...'')
+
+
+% --- German Abstract ----------------------------------------------------
+
+\cleardoublepage
+\chapter*{Kurzfassung}
+(Z.B. ``Diese Arbeit untersucht...'')
+
+% --- Abbrevations ----------------------------------------------------
+\newpage\noindent
+\chapter*{Abkürzungen}
+\vspace{0.65cm}
+
+\begin{table*}[htbp]
+		\begin{tabular}{ll}
+			
+		\end{tabular}
+\end{table*}
+
+% --- Key terms ----------------------------------------------------
+\newpage
+\chapter*{Schlüsselbegriffe}
+\vspace{0.65cm}
+
+\begin{itemize}
+	\setlength{\itemsep}{0pt}
+	\item[] Android
+	\item[] Java
+	\item[] Kotlin
+\end{itemize}
+
+% --- Table of contents autogenerated ------------------------------------
+\newpage
+\tableofcontents
+
+% --- Begin of Thesis ----------------------------------------------------
+\mainmatter
+\chapter{Einführung}
+\label{chap:Einführung}
+
+\section{Motivation}
+\label{sec:Motivation}
+Warum ist diese Arbeit interessant?
+
+\section{Relevanz}
+\label{sec:Relevanz}
+Inwiefern ist diese Arbeit neu und wichtig?
+
+\chapter{Hauptteil}
+\label{chap:Hauptteil}
+
+\section{Android}
+\label{sec:Android}
+Generelle Übersicht zu Android
+
+\section{Java}
+\label{sec:Java}
+Generelle Übersicht zu Java
+
+\section{Kotlin}
+\label{sec:Kotlin}
+Generelle Übersicht zu Kotlin
+
+\section{Allgemeine Unterschiede}
+\label{sec:AllgemeineUnterschiede}
+Allgemeine Unterschiede zwischen Java und Kotlin wie zum Beispiel Semicolons, Null Safety,  Type Inference, Extension Functions, ...
+
+
+\section{Entwicklungseffizienz}
+\label{sec:Entwicklungseffizienz}
+Analyse ob Kotlin eine bessere Entwicklungseffizienz hat. 
+
+\section{Wartbarkeit}
+\label{sec:Wartbarkeit}
+Vergleich der Wartbarkeit der beiden Sprachen.
+
+\section{Leichtigkeit der Entwicklung}
+\label{sec:LeichtigkeitDerEntwicklung}
+Betrachtung der Leichtigkeit der Sprachen bei der Entwicklung.
+
+\section{Laufzeit Effizienz}
+\label{sec:LaufzeitEffizienz}
+Vergleich der Laufzeit Effizienz der beiden Sprachen.
+
+\section{Verwandte Arbeiten}
+\label{sec:VerwandteArbeiten}
+
+
+\chapter{Schluss}
+\label{chap:Schluss}
+
+\section{Zusammenfassung}
+\label{sec:Zusammenfassung}
+Wichtigsten Aussagen der Arbeit wiederholen und miteinander in Beziehung bringen
+
+\section{Bewertung und Ausblick}
+\label{sec:BewertungUndAusblick}
+Bewertung der verschiedenen Faktoren und Erkenntnisse
+Ideen für weitere Arbeiten
+
+\newpage
+
+% --- Bibliography ------------------------------------------------------
+
+%IEEE Citation [1]:
+\bibliographystyle{IEEEtran}
+%for alphanumeric citation eg.: [ABC19]
+%\bibliographystyle{alpha}
+
+% List references I definitely want in the bibliography,
+% regardless of whether or not I cite them in the thesis.
+
+\newpage
+\addcontentsline{toc}{chapter}{Bibliographie}
+\bibliography{testBib}
+
+\newpage
+
+% --- List of Figures ----------------------------------------------------
+
+\addcontentsline{toc}{chapter}{Abbildungen}
+\listoffigures
+
+
+% --- List of Tables -----------------------------------------------------
+
+\newpage
+\addcontentsline{toc}{chapter}{Tabellen}
+\listoftables
+
+% --- Appendix A -----------------------------------------------------
+
+\newpage
+\backmatter
+\appendix
+\begin{appendices}
+\chapter{Appendix}
+
+(Hier können Schaltpläne, Programme usw. eingefügt werden.)
+
+\clearpage
+\end{appendices}
+
+\end{document}
