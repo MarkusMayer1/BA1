@@ -598,7 +598,47 @@ Mit der DataStore-Bibliothek sind zwei verschiedene Implementierungen möglich. 
 
 DataStore eignet sich gut für kleine, einfache Datensätze und es ist darauf zu achten, dass es keine partiellen Aktualisierungen oder referenzielle Integrität unterstützt. Wenn mit großen oder komplexen Datensätzen gearbeitet wird oder partielle Aktualisierungen oder referenzielle Integrität benötigt wird, dann sollte Room anstelle von DataStore verwendet werden. \cite{datastore}
 
-\subsection{WorkManager}
+
+\subsection{Work}
+
+Zuverlässige und akkuschonende Verarbeitung im Hintergrund sind eine große Herausforderung. Zusätzlich boten die verschiedenen Android-Versionen unterschiedliche Tools für Arbeiten im Hintergrund. Die Netzwerk- oder Speicherverfügbarkeit abzuhören und das automatische Wiederholen von Aufgaben war zum Beispiel mit viel Arbeit verbunden. \cite{workmanager_stable_release}
+
+WorkManager erleichtert die Arbeit im Hintergrund und berücksichtigt Einschränkungen, wie Akku-Optimierung, Speicherplatz oder Netzwerkverfügbarkeit. Der WorkManager führt diese Aufgaben nur aus, sofern die jeweiligen Bedingungen erfüllt sind. \cite{workmanager_stable_release} Die WorkManager-API stellt eine verbesserte Alternative für die Verwaltung von Hintergrundaufgaben in Android dar und löst damit alle früheren APIs in diesem Bereich ab, wie beispielsweise FirebaseJobDispatcher, GcmNetworkManager und Job Scheduler \cite{workmanager}. 
+
+Die meisten Hintergrundverarbeitungen werden am besten durch persistente Arbeit erreicht, die auch nach einem Neustart der Anwendung oder des Systems geplant bleibt. WorkManager wird als Lösung für Hintergrundverarbeitung und daher auch für persistente Arbeit empfohlen. \cite{workmanager}
+
+WorkManager kann folgende drei Arten von persistenter Arbeit verwalten, wie in „Types of persistent work“ aufgeführt. \cite{workmanager}
+
+\begin{itemize} 
+  \item \textbf{Immediate} \\ 
+        Sind Aufgaben, die sofort beginnen und zeitnah abgeschlossen werden müssen und auch beschleunigt werden können. Diese Aufgaben laufen einmalig. 
+  \item \textbf{Long Running} \\ 
+        Hierbei handelt es sich um Aufgaben, die länger dauern können, möglicherweise länger als 10 Minuten und einmalig oder periodisch ablaufen können. 
+  \item \textbf{Deferrable} \\ 
+        Sind geplante Aufgaben, die zu einem späteren Zeitpunkt beginnen und einmalig oder periodisch ausgeführt werden können. 
+\end{itemize}
+
+Neben der einfacheren und einheitlicheren API bietet der WorkManager auch eine Reihe andere wichtiger Vorteile \cite{workmanager}. 
+
+\noindent\textbf{Arbeitsbeschränkungen} \\
+Mithilfe von Arbeitseinschränkungen ist es möglich die Bedingungen für die Ausführung der Arbeit zu definieren. Zum Beispiel soll die Arbeit nur ausgeführt werden, wenn sich das Gerät in einem Netzwerk befindet, das nicht gebührenpflichtig ist, wenn sich das Gerät im Leerlauf befindet oder wenn der Akku ausreichend geladen ist. \cite{workmanager}
+
+\noindent\textbf{Robuste Planung} \\
+Einmalige oder wiederkehrende Arbeiten können mit WorkManager flexible geplant, gekennzeichnet und benannt werden, sodass austauschbare Arbeiten entstehen. Diese Arbeiten werden in einer internen verwalteten SQLite-Datenbank gespeichert und bleiben durch den WorkManager auch nach einem Neustart des Geräts erhalten. Zusätzlich hält sich der WorkManager an Energiesparfunktionen und bewährte Verfahren wie den Doze-Modus. \cite{workmanager}
+
+\noindent\textbf{Beschleunigte Arbeit} \\
+Sofortige Arbeiten können mit WorkManager zur Ausführung im Hintergrund geplant werden. Beschleunigte Arbeit wird innerhalb weniger Minuten abgeschlossen und sollte für Aufgaben verwendet werden, die für den Benutzer wichtig sind. \cite{workmanager}
+
+\noindent\textbf{Flexible Wiederholungsregelungen} \\
+Wenn die Arbeit fehlschlägt, bietet WorkManager flexible Wiederholungsrichtlinien inklusive einer konfigurierbaren exponentiellen Backoff-Richtline \cite{workmanager}. 
+
+\noindent\textbf{Arbeitsverkettung} \\
+Bei komplexen, zusammenhängenden Arbeiten können einzelne Arbeitsaufgaben verkettet werden und es kann gesteuert werden welche Teile nacheinander und welche parallel ablaufen sollen. Ausgabedaten werden bei der Verkettung automatisch von einer Arbeitsaufgabe an die nächste übergeben. \cite{workmanager}
+
+\noindent\textbf{Integrierte Threading-Interoperabilität} \\
+WorkManager kann problemlos in Coroutines und RxJava integriert werden und bietet die Möglichkeit, eigene asynchrone APIs einzubinden \cite{workmanager}.
+
+
 \subsection{Room}
 \subsection{Compose}
 \subsection{Navigation}
