@@ -251,6 +251,7 @@ Datum: \hspace{6cm} Unterschrift:\\
             OMA      & Open Mobile Alliance \\
             IDE      & Integrated Development Enviroment \\
             DSL      & Domain Specific Language \\
+            DAO      & Data Access Object \\
 		\end{tabular}
 \end{table*}
 
@@ -334,8 +335,8 @@ Android Jetpack wurde von der Support Library inspiriert. Dabei handelt es sich 
 
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=\textwidth]{images/AndroidJetpackUebersicht.png}
-	\caption{Überblick über die Komponenten von Android Jetpack \cite{android_jetpack_ueberblick} <todo: erneuern>}
+		\includegraphics[width=\textwidth]{images/AndroidJetpackUebersicht.drawio.pdf}
+	\caption{Überblick über die Komponenten von Android Jetpack \cite{android_jetpack_ueberblick}}
 	\label{fig:AndroidJetpackUebersicht}
 \end{figure}
 
@@ -573,7 +574,7 @@ Die Paging-Bibliothek ist in die Android-App-Architektur direkt integrierbar, wo
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=\textwidth]{images/PagingBibliothekArchitektur.jpg}
-	\caption{ Architektur der Paging-Bibliothek \cite{paging_overview}}
+	\caption{Architektur der Paging-Bibliothek \cite{paging_overview}}
 	\label{fig:PagingBibliothekArchitektur}
 \end{figure}
 
@@ -640,6 +641,63 @@ WorkManager kann problemlos in Coroutines und RxJava integriert werden und biete
 
 
 \subsection{Room}
+
+Bei Room handelt es sich um eine Database Object Mapping Bibliothek, die den Datenbankzugriff in Android Anwendungen erleichtert. Room stellt APIs zur Abfrage der Datenbank und zur Überprüfung dieser Abfragen während der Kompilierungszeit zur Verfügung. \cite{androidx.room} Room stellt eine Schicht zwischen Anwendung und SQLite bereit, die es ermöglicht, auf die Datenbank zu zugreifen, ohne sich um die Details der SQLite-Implementation kümmern zu müssen, während dennoch die volle Leistung von SQLite und die Typsicherheit von Java und Kotlin SQL Query Buildern genutzt werden kann \cite{androidx.room}, \cite{room}. Außerdem hat Room Annotations, die wiederholenden und fehleranfälligen Boilerplate-Code minimieren und optimierte Migrationspfade für Datenbanken. Aufgrund der Vorteile, die diese Bibliothek bietet, wird empfohlen Room zu verwenden, anstatt die SQLite-APIs direkt zu nutzen. \cite{room}
+
+Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access Objects (DAOs) und Entities, deren Beziehungen untereinander in Abbildung \ref{fig:RoomArchitektur} zu sehen sind. Die Datenbank stellt der Anwendung Instanzen der DAOs zu Verfügung, welche mit der Datenbank verknüpft sind. Die App kann diese DAOs verwenden, um Daten aus der Datenbank als Instanzen der zugehörigen Daten-Entitätsobjekte abzurufen. Außerdem kann die Anwendung die definierten Daten-Entities verwenden, um Zeilen aus den entsprechenden Tabellen zu aktualisieren, einzufügen oder zu löschen. 
+
+\begin{figure}[H]
+	\centering
+		\includegraphics[]{images/RoomArchitektur.drawio.pdf}
+	\caption{Architektur der Room-Bibliothek \cite{room}}
+	\label{fig:RoomArchitektur}
+\end{figure}
+
+\noindent\textbf{Data entity} \\
+Entitäten werden definiert, um Objekte darzustellen, die gespeichert werden sollen. Dabei entspricht jede Entität einer Tabelle in der Datenbank und jede Instanz stellt eine Datenzeile dar. Der Vorteil bei der Verwendung von Room-Entitäten ist, dass ein Datenbankschema definierbar ist, ohne SQL-Code schreiben zu müssen. \cite{room_entities} 
+
+Jede Room-Entität ist eine Klasse, die mit \lstinline{@Entity} annotiert ist und enthält Felder für jede Spalte in der entsprechenden Tabelle. Eine Room-Entität muss einen Primärschlüssel haben. Eine oder mehre Spalten können dabei mit \lstinline{@PrimaryKey} gekennzeichnet werden, welche dann den Primärschlüssel bilden. Das Listing \ref{lst:EntityCode} zeigt eine einfache Room-Entität, die eine Tabelle User mit den Spalten ID, Vorname und Nachname definiert, wobei die Spalte ID der Primärschlüssel ist. \cite{room_entities}
+
+\begin{lstlisting}[frame=lines, caption=Code einer Room Entität \cite{room_entities}, captionpos=b, label = lst:EntityCode, language=Kotlin, showstringspaces=false]
+@Entity
+data class User(
+    @PrimaryKey val id: Int,
+    val firstName: String?,
+    val lastName: String?
+)
+\end{lstlisting}
+
+\noindent\textbf{DAO} \\
+Zum Speichern der Daten in der Anwendung, werden DAOs definiert, wobei jedes DAO Methoden enthält, die einen abstrakten Zugriff auf die Datenbank der App ermöglichen. DAOs erleichtern das Simulieren von Datenbankzugriffen beim Testen der App. \cite{room_daos}
+
+Ein DAO kann als Schnittstelle oder abstrakte Klasse definiert werden, wobei normalerweise Schnittstellen verwendet werden. DAOs werden immer mit \lstinline{@Dao} annotiert. Um Datenbankinteraktionen zu definieren, gibt es zwei verschiedene Arten von DAO-Methoden. Einerseits die Convenience-Methoden, welche das Einfügen, Aktualisieren und Löschen von Zeilen in der Datenbank ermöglichen ohne SQL-Code zu schreiben. Andererseits die Query-Methoden, mit denen durch eigene SQL-Anweisungen Daten aus der Datenbank abgefragt werden können oder komplexere Einfügungen, Aktualisierungen und Löschungen durchgeführt werden können und sie dabei als DAO-Methoden darzustellen. Das Listing \ref{lst:DaoCode} zeigt ein einfaches DAO als \lstinline{UserDao} Schnittstelle, welche sowohl die Convenience-Methoden \lstinline{@Insert} und \lstinline{@Delete}, als auch eine Query-Methode, die mittels eigenem SQL-Code alle User aus der Datenbank abruft, beinhaltet. \cite{room_daos}
+
+\begin{lstlisting}[frame=lines, caption=Code eines DAOs \cite{room_daos}, captionpos=b, label = lst:DaoCode, language=Kotlin, showstringspaces=false]
+@Dao
+interface UserDao {
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
+
+    @Query("SELECT * FROM user")
+    fun getAll(): List<User>
+}
+\end{lstlisting}
+
+\noindent\textbf{Datenbank} \\
+Die Datenbankklasse enthält die Datenbank, welche als Hauptzugriffspunkt für die Verbindung zu den persistierten Daten in der App dient. Diese Klasse muss eine abstrakte Klasse sein, die \lstinline{RoomDatabase} erweitert und eine \lstinline{@Database}-Annotation haben, welche ein Entity-Array enthält, das alle Data entities auflistet, die mit der Datenbank verbunden sind. Die Datenbankklasse muss für jede DAO-Klasse, die mit der Datenbank verbunden ist, eine abstrakte Methode definieren, die keine Argumente hat und eine Instanz der DAO-Klasse zurückgibt. Im Listing \ref{lst:DatenbankCode} ist die abstrakte Klasse \lstinline{AppDatabase}, welche die \lstinline{RoomDatabase}-Klasse erweitert, mit \lstinline{@Database} annotiert ist und eine abstrakte Methode für das \lstinline{UserDao} definiert, zu sehen. \cite{room}
+
+\begin{lstlisting}[frame=lines, caption=Code der Room Datenbank \cite{room}, captionpos=b, label = lst:DatenbankCode, language=Kotlin, showstringspaces=false]
+@Database(entities = [User::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+\end{lstlisting}
+
+
+
 \subsection{Compose}
 \subsection{Navigation}
 
