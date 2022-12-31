@@ -644,7 +644,7 @@ WorkManager kann problemlos in Coroutines und RxJava integriert werden und biete
 
 Bei Room handelt es sich um eine Database Object Mapping Bibliothek, die den Datenbankzugriff in Android Anwendungen erleichtert. Room stellt APIs zur Abfrage der Datenbank und zur Überprüfung dieser Abfragen während der Kompilierungszeit zur Verfügung. \cite{androidx.room} Room stellt eine Schicht zwischen Anwendung und SQLite bereit, die es ermöglicht, auf die Datenbank zu zugreifen, ohne sich um die Details der SQLite-Implementation kümmern zu müssen, während dennoch die volle Leistung von SQLite und die Typsicherheit von Java und Kotlin SQL Query Buildern genutzt werden kann \cite{androidx.room}, \cite{room}. Außerdem hat Room Annotations, die wiederholenden und fehleranfälligen Boilerplate-Code minimieren und optimierte Migrationspfade für Datenbanken. Aufgrund der Vorteile, die diese Bibliothek bietet, wird empfohlen Room zu verwenden, anstatt die SQLite-APIs direkt zu nutzen. \cite{room}
 
-Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access Objects (DAOs) und Entities, deren Beziehungen untereinander in Abbildung \ref{fig:RoomArchitektur} zu sehen sind. Die Datenbank stellt der Anwendung Instanzen der DAOs zu Verfügung, welche mit der Datenbank verknüpft sind. Die App kann diese DAOs verwenden, um Daten aus der Datenbank als Instanzen der zugehörigen Daten-Entitätsobjekte abzurufen. Außerdem kann die Anwendung die definierten Daten-Entities verwenden, um Zeilen aus den entsprechenden Tabellen zu aktualisieren, einzufügen oder zu löschen. 
+Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access Objects (DAOs) und Entities, deren Beziehungen untereinander in Abbildung \ref{fig:RoomArchitektur} zu sehen sind. Die Datenbank stellt der Anwendung Instanzen der DAOs zu Verfügung, welche mit der Datenbank verknüpft sind. Die App kann diese DAOs verwenden, um Daten aus der Datenbank als Instanzen der zugehörigen Daten-Entitätsobjekte abzurufen. Außerdem kann die Anwendung die definierten Daten-Entities verwenden, um Zeilen aus den entsprechenden Tabellen zu aktualisieren, einzufügen oder zu löschen. \cite{room}
 
 \begin{figure}[H]
 	\centering
@@ -697,11 +697,44 @@ abstract class AppDatabase : RoomDatabase() {
 \end{lstlisting}
 
 
-
-\subsection{Compose}
 \subsection{Navigation}
 
+Aktivitäten sind Einstiegspunkte in die Benutzeroberfläche einer App, aber ihre Unflexibilität bei der gemeinsamen Nutzung von Daten und Übergängen führt zu einer nicht idealen Architektur der In-App-Navigation. Aus diesem Grund hat sich die Navigationskomponente als Framework für die Strukturierung der In-App-Oberfläche durchgesetzt und dabei geht der Trend zur Single-Activity-App Architektur. \cite{android_jetpack_ueberblick}
 
+
+\subsubsection{Prinzipien der Navigation}
+
+Die Navigation zwischen den verschiedenen Bildschirmen sind ein wesentlicher Bestandteil für das Benutzererlebnis und daher bilden gewisse Prinzipien die Grundlage einer einheitliche Benutzererfahrung in den verschiedenen Anwendungen. Diese Grundsätze sind in der Navigationskomponente standardmäßig implementiert. \cite{navigation_prinzipien}
+
+Jede App sollte ein fixes Anfangsziel besitzen, wenn sie vom Launcher aufgerufen wird, welche auch der letzte Bildschirm sein sollte, bevor zum Launcher zurückgekehrt wird \cite{navigation_prinzipien}. 
+
+Das fixe Anfangsziel nach dem Starten einer App wird zum Basisziel des sogenannten back stacks und ist die Grundlage für den Navigationsstatus. Der aktuelle Bildschirm ist der oberste Teil des Stacks, die vorherigen Ziele befinden sich unterhalb im Stack und am unteren Ende des Stacks befindet sich immer das Anfangsziel. Änderungen wirken sich immer auf den obersten Teil des Stacks aus, indem entweder ein neues Ziel an die oberste Stelle des Stacks geschoben wird oder das oberste Ziel vom Stapel entfernt wird. \cite{navigation_prinzipien}
+
+Die Schaltfläche Back in der Systemnavigationsleiste am unteren Rand des Bildschirms und die Schaltfläche Up in der App-Leiste am oberen Rand des Bildschirms verhalten sich innerhalb der App identisch. Beim Drücken von Back oder Up wird der aktuelle Bildschirm vom oberen Teil des Stacks entfernt und es wird zum vorherigen Bildschirm navigiert. Im Anfangsziel der App sollte die Schaltfläche Up jedoch nicht erscheinen, weil mit Up die App nie verlassen werden sollte. Im Gegensatz dazu ist die Schaltfläche Back im Anfangsziel ersichtlich und die App kann damit auch verlassen werden. \cite{navigation_prinzipien}
+
+
+\subsubsection{Navigations Komponente}
+
+Die Navigations Komponente von Android Jetpack erleichtert dem*der Entwickler*in die Implementierung der Navigation, von einfachen Klicks bis zu komplexen Mustern und die Einhaltung der Prinzipien. Die Komponente besteht aus drei Hauptbestandteilen, dem Navigation graph, Navigation host und dem Navigation controller. \cite{navigation}
+
+\noindent\textbf{Navigation graph} \\
+Der Navigation graph beinhaltet Ziele und mögliche Pfade, die ein*eine Benutzer*in durch die App nehmen kann \cite{navigation}. Zusätzlich dient er als „virtuelles“ Ziel, wobei der Navigation graph selbst nicht am back stack erscheint, sondern die Navigation zum Navigation graph dazu führt, dass das Anfangsziel dem back stack hinzugefügt wrid \cite{navgraph}. 
+
+Es gibt zwei unterschiedliche Möglichkeiten einen Navigation graph zu konstruieren. Vor dem Release von Jetpack Compose war es nur möglich den Navigation graph mit Aktivitäten und Fragmenten mit dem Navigation Editor in Android Studio zu erzeugen. Bei dieser Variante wird der Navigation graph und das Layout der Fragmente und Aktivitäten in einer XML-Datei abgespeichert. \cite{navigation_xml} Bei Jetpack Compose beinhaltet der Navigation graph die Ziele als sogenannte composables. Der Navigation graph ist mit Kotlin geschrieben und die composables sind Kotlin Funktionen mit einer \lstinline{@Composable}-Annotation. \cite{navigation_compose}
+
+Es ist aber auch möglich gemischte Anwendungen, bei denen der Navigation graph sowohl Fragmente als auch composables beinhalten, zu erzeugen. Bei diesen wird die fragmentbasierte Navigationskomponente verwendet und die composables werden in den Fragmenten gehostet. \cite{navigation_compose}
+
+\noindent\textbf{Navigation host} \\
+Der Navigation host ist ein leerer Container, der die Ziele vom Navigation Graph anzeigt \cite{navigation}. Vor Compose war der Navigation host immer eine XML-Datei und in Compose ist der \lstinline{NavHost} ein composable, dass in Kotlin erstellt wird \cite{navigation_compose}. 
+
+\noindent\textbf{Navigation controller} \\
+Der \lstinline{NavController} ist ein Objekt der den Austausch von Zielinhalten im \lstinline{NavHost} steuert, wenn sich der*die Benutzer*in durch die App bewegt. Während der Navigation durch die App, wird dem \lstinline{NavController} mitgeteilt, dass entweder entlang eines Pfades des Navigation graph oder direkt zu einem bestimmten Ziel navigiert werden möchte. Der Navigation controller zeigt anschließend das entsprechende Ziel im \lstinline{NavHost} an. \cite{navigation}
+\\\\
+Für das Navigieren bei der fragmentbasierten Navigationskomponente stehen drei Varianten zur Verfügung. Das Gradle-Plugin Safe Args ist die von Android empfohlene Methode, um zwischen Zielen zu navigieren. Safe Args kann auch für die Übergabe von Daten zwischen Zielen verwendet werden. Eine weitere Möglichkeit ist es mit der Ressourcen-ID eines Ziels zu navigieren. Die dritte Möglichkeit verwendet die Methode \lstinline{navigate(NavDeepLinkRequest)} um direkt zu einem impliziten Deep-Link-Ziel zu navigieren. \cite{navigation_navigate}
+
+Bei der Verwendung von Jetpack Compose, wird die Methode \lstinline{navigate} mit einem \lstinline{String} Parameter, der die Route des Ziels darstellt, benutzt, um zu einem Composable zu navigieren. Navigation Compose unterstützt auch die Übergabe von Daten zwischen Composables, dazu werden in der Route Platzhalter für Argumente hinzufügt. \cite{navigation_compose}
+
+Bei jedem Aufruf der \lstinline{navigate}-Methode wird ein zusätzliches Ziel oben auf den Stack gelegt. Wenn in der App die Schaltfläche Up oder Back gedrückt wird, werden die Methoden \lstinline{NavController.navigateUp()} oder \lstinline{NavController.popBackStack()} aufgerufen, um damit das oberste Ziel vom Stack zu entfernen. \cite{navigation_navigate}
 
 \chapter{Schluss}
 \section{Zusammenfassung}
