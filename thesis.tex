@@ -28,6 +28,15 @@
 %\usepackage[applemac]{inputenc}
 
 \usepackage[ngerman]{babel}
+\hyphenation{Lifecycle}
+\hyphenation{ViewModel}
+\hyphenation{LiveData}
+\hyphenation{Paging}
+\hyphenation{DataStore}
+\hyphenation{Room }
+\hyphenation{WorkManager}
+\hyphenation{Navigation}
+
 %for english use this instead:
 %\usepackage[english]{babel}
 
@@ -242,7 +251,8 @@ Therefore, this paper takes a closer look at the Architecture components of Andr
 
 Die Entwicklung von Android Applikationen hat sich in den letzten Jahren rasch verändert und weiterentwickelt, da die Hardware immer mehr Möglichkeiten bietet. Das Smartphone hat sich zu einem multifunktionalen Werkzeug entwickelt und daher ist nicht nur die Anzahl der verfügbaren Applikationen gestiegen, sondern auch die Komplexität bestimmter Applikationen, um die verschiedensten Funktionen nutzen zu können. Dies führt zu höheren Anforderungen an die Entwickler*innen von Android Applikationen. Um komplexen Applikationen gewachsen zu sein, benötigen die Entwickler*innen ein Werkzeug, um effizienter arbeiten zu können. Mit Android Jetpack wurde eine Sammlung von Komponenten veröffentlicht, welche die Applikationsentwicklung vereinfachen und die Menge an geschriebenen Code verringern soll. 
 
-Diese Arbeit betrachtet daher die Architecture Komponenten von Android Jetpack, die sich aus den Komponenten Lifecycle, ViewModel, LiveData, Paging, DataStore, Room, WorkManager und Navigation zusammensetzen, näher und erläutert deren Möglichkeiten und Vorteile. Nach genauer Betrachtung der einzelnen Android Jetpack Architecture Komponenten, kann bestätigt werden, dass einfacher und effizienter gearbeitet werden kann. Bei dieser Bachelorarbeit wurde eine Literaturrecherche durchgeführt, als Quellen wurden Bücher, Papers und online Quellen, wie die offizielle Dokumentation und der Android Developers Blog, verwendet. 
+Diese Arbeit betrachtet daher die Architecture Komponenten von Android Jetpack, die sich aus den Komponenten Lifecycle, ViewModel, LiveData, Paging, DataStore, Room, WorkManager und Navigation zusammensetzen, näher und erläutert deren Möglichkeiten und Vorteile. Nach genauer Betrachtung der einzelnen Android Jetpack Architecture Komponenten kann bestätigt werden, dass einfacher und effizienter gearbeitet werden kann. Bei dieser Bachelorarbeit wurde eine Literaturrecherche durchgeführt, als Quellen wurden Bücher, Papers und online Quellen, wie die offizielle Dokumentation und der Android Developers Blog, verwendet.
+
 
 
 % --- Abbrevations ----------------------------------------------------
@@ -278,7 +288,7 @@ Diese Arbeit betrachtet daher die Architecture Komponenten von Android Jetpack, 
 	\item[] Paging
 	\item[] DataStore
 	\item[] Room 
-	\item[] WorkManger
+	\item[] WorkManager
 	\item[] Navigation
 \end{itemize}
 
@@ -299,7 +309,7 @@ Die vorliegende Arbeit ist folgendermaßen aufgebaut: Kapitel \ref{chap:Android}
 \chapter{Android}
 \label{chap:Android}
 
-Um einen Überblick über Android zu bekommen, beziehungsweise wo der Fokus eines der am weitest verbreitetsten Betriebssysteme für mobile Geräte liegt, muss man etwas in die Vergangenheit blicken. Android ist ein Open-Source-Betriebssystem, welches auf einem Linux-Kernel basiert. Es wurde von der Firma Android Inc. entwickelt, die im Jahr 2005 von Google übernommen wurde \cite{hrmoandroid}.
+Um einen Überblick über Android zu bekommen, beziehungsweise wo der Fokus eines der am weitest verbreitetsten Betriebssysteme für mobile Geräte liegt, muss etwas in die Vergangenheit geblickt werden. Android ist ein Open-Source-Betriebssystem, welches auf einem Linux-Kernel basiert. Es wurde von der Firma Android Inc. entwickelt, die im Jahr 2005 von Google übernommen wurde \cite{hrmoandroid}.
 
 
 \section{Rückblick}
@@ -559,9 +569,9 @@ Ein Observer kann mit einem Objekt registriert werden, das die Schnittstelle \ls
   \item \textbf{Keine manuelle Verwaltung des Lebenszyklus mehr} \\ 
         UI-Komponenten beobachten nur relevanten Daten und die Beobachtung wird weder gestoppt noch fortgesetzt. LiveData verwaltet alles automatisch, da die relevanten Änderungen des Lebenszyklusstatus während der Beobachtung bekannt sind.
   \item \textbf{Immer aktuelle Daten} \\ 
-        Ein Lebenszyklus der inaktiv wird, erhält die neuesten Daten, sobald er wieder aktiv wird.
+        Ein Lebenszyklus, der inaktiv wird, erhält die neuesten Daten, sobald er wieder aktiv wird.
   \item \textbf{Ordnungsgemäße Konfigurationsänderungen} \\ 
-        Wird eine Aktivität oder ein Fragment aufgrund einer Konfigurationsänderung, wie zum Beispiel der Bildschirmdrehung, neu erstellt, erhält es sofort die aktuellsten verfügbaren Daten.
+        Wird eine Aktivität oder ein Fragment aufgrund einer Konfigurationsänderung, wie zum Beispiel der Bildschirmdrehung neu erstellt, erhält es sofort die aktuellsten verfügbaren Daten.
   \item \textbf{Gemeinsame Nutzung von Ressourcen} \\ 
         Mit dem Singleton Pattern kann ein \lstinline{LiveData}-Objekt erweitert werden, um Systemdienste so zu verpacken, dass sie in der Anwendung gemeinsam genutzt werden können. Das \lstinline{LiveData}-Objekt verbindet sich einmal mit dem Systemdienst und jeder Observer, der die Ressource benötigt, kann das Objekt beobachten. 
 \end{itemize}
@@ -576,7 +586,7 @@ Die Paging-Bibliothek enthält die folgenden Funktionen, wie in „Benefits of u
 \begin{itemize} 
   \item Durch In-Memory-Caching wird sichergestellt, dass die Anwendung bei der Arbeit mit ausgelagerten Daten die Systemressourcen effizient nutzt.
   \item Effiziente Nutzung der Netzwerkbandbreite und Systemressourcen durch integrierte Anforderungs-Deduplizierung.
-  \item Konfigurierbare \lstinline{RecyclerView}-Adapter die, wenn der*die Benutzer*in zum Ende der geladenen Daten scrollt, automatisch Daten anfordern.
+  \item Konfigurierbare \lstinline{RecyclerView}-Adapter, die automatisch Daten anfordern, wenn der Benutzer zum Ende der geladenen Daten scrollt.
   \item Unterstützt Kotlin Coroutines und Flow sowie LiveData und RxJava.
   \item Integrierte Unterstützung für die Fehlerbehandlung, inklusive Aktualisierungs- und Wiederholungsfunktionen.
 \end{itemize}
@@ -593,7 +603,7 @@ Die Paging-Bibliothek ist in die Android-App-Architektur direkt integrierbar, wo
 \noindent\textbf{Repository-Schicht} \\
 Die wichtigste Komponente in der Repository-Schicht ist \lstinline{PagingSource}. Ein \lstinline{PagingSource}-Objekt legt eine Datenquelle fest und definiert, wie die Daten aus dieser Quelle abgerufen werden. \cite{paging_overview}
 
-Eine weitere Komponente ist der \lstinline{RemoteMediator}, welcher das Paging aus einer mehrschichtigen Datenquelle, zum Beispiel eine Netzwerkdatenquelle mit einem lokalen Datenbank-Cache, verwaltet \cite{paging_overview}. 
+Eine weitere Komponente ist der \lstinline{RemoteMediator}, welcher das Paging aus einer mehrschichtigen Datenquelle, zum Beispiel eine Netzwerkdatenquelle mit einem lokalen Datenbank-Cache verwaltet \cite{paging_overview}. 
 
 \noindent\textbf{ViewModel-Schicht} \\
 Die \lstinline{Pager} Komponente bietet eine öffentliche API zur Erstellung von Instanzen von \lstinline{PagingData}, die in reaktiven Streams auf der Grundlage eines \lstinline{PagingSource}-Objekts und eines \lstinline{PagingConfig}-Konfigurationsobjekts dargestellt werden \cite{paging_overview}.
@@ -606,18 +616,18 @@ Der \lstinline{PagingDataAdapter} in der UI-Schicht ist ein RecyclerView-Adapter
 
 \section{DataStore}
 
-Bei der DataStore-Bibliothek handelt es sich um eine neue und verbesserte Datenspeicherlösung, welche die SharedPreferences ersetzen soll. Dabei werden die Daten unter Verwendung von Kotlin Coroutines und Flow asynchron, konsistent und transaktional gespeichert und dadurch die meisten Nachteile von SharedPreferences beseitigt. \cite{datastore_releases} 
+Bei der DataStore-Bibliothek handelt es sich um eine neue und verbesserte Datenspeicherlösung, welche die SharedPreferences ersetzen soll, dabei werden die Daten unter Verwendung von Kotlin Coroutines und Flow asynchron, konsistent und transaktional gespeichert. Dadurch werden die meisten Nachteile von SharedPreferences beseitigt. \cite{datastore_releases}
 
-Mit der DataStore-Bibliothek sind zwei verschiedene Implementierungen möglich. Bei \mbox{\textbf{Preferences DataStore}} werden Daten mithilfe von Schlüsseln gespeichert und auf sie zugegriffen, wobei kein vordefiniertes Schema verwendet werden muss und es keine Typensicherheit bietet. Bei \mbox{\textbf{Proto DataStore}} werden die Daten als Instanzen eines benutzerdefinierten Datentyps gespeichert. Diese Art der Implementierung benötigt die Definition eines Schemas unter Verwendung von Protokollpuffern, dafür wird aber Typsicherheit geboten. \cite{datastore}
+Mit der DataStore-Bibliothek sind zwei verschiedene Implementierungen möglich. Bei der ersten Implementierung, \mbox{Preferences DataStore} werden Daten mithilfe von Schlüsseln gespeichert und auf sie zugegriffen, wobei kein vordefiniertes Schema verwendet werden muss und es keine Typensicherheit bietet. Die zweite Implementierung ist \mbox{Proto DataStore}, bei dieser werden die Daten als Instanzen eines benutzerdefinierten Datentyps gespeichert. Diese Art der Implementierung benötigt die Definition eines Schemas unter Verwendung von Protokollpuffern, dafür wird jedoch Typsicherheit geboten. \cite{datastore}
 
-DataStore eignet sich gut für kleine, einfache Datensätze und es ist darauf zu achten, dass es keine partiellen Aktualisierungen oder referenzielle Integrität unterstützt. Wenn mit großen oder komplexen Datensätzen gearbeitet wird oder partielle Aktualisierungen oder referenzielle Integrität benötigt wird, dann sollte Room anstelle von DataStore verwendet werden. \cite{datastore}
+DataStore eignet sich für kleine, einfache Datensätze und es ist darauf zu achten, dass es keine partiellen Aktualisierungen oder referenzielle Integrität unterstützt. Wird mit großen oder komplexen Datensätzen gearbeitet, partielle Aktualisierungen oder referenzielle Integrität benötigt, dann sollte Room anstelle von DataStore verwendet werden. \cite{datastore}
 
 
 \section{Room}
 
-Bei Room handelt es sich um eine Database Object Mapping Bibliothek, die den Datenbankzugriff in Android Anwendungen erleichtert. Room stellt APIs zur Abfrage der Datenbank und zur Überprüfung dieser Abfragen während der Kompilierungszeit zur Verfügung. \cite{androidx.room} Room stellt eine Schicht zwischen Anwendung und SQLite bereit, die es ermöglicht, auf die Datenbank zuzugreifen, ohne sich um die Details der SQLite-Implementation kümmern zu müssen, während dennoch die volle Leistung von SQLite und die Typsicherheit von Java und Kotlin SQL Query Buildern genutzt werden kann \cite{androidx.room}, \cite{room}. Außerdem hat Room Annotations, die wiederholenden und fehleranfälligen Boilerplate-Code minimieren und optimierte Migrationspfade für Datenbanken. Aufgrund der Vorteile, die diese Bibliothek bietet, wird empfohlen Room zu verwenden, anstatt die SQLite-APIs direkt zu nutzen. \cite{room}
+Bei Room handelt es sich um eine Database Object Mapping Bibliothek, die den Datenbankzugriff in Android Anwendungen erleichtert. Room stellt APIs zur Abfrage der Datenbank und zur Überprüfung dieser Abfragen während der Kompilierungszeit zur Verfügung. \cite{androidx.room} Room stellt eine Schicht zwischen Anwendung und SQLite bereit, die es ermöglicht, auf die Datenbank zuzugreifen, ohne sich um die Details der SQLite-Implementation kümmern zu müssen, während dennoch die volle Leistung von SQLite und die Typsicherheit von Java und Kotlin SQL Query Buildern genutzt werden kann \cite{androidx.room}, \cite{room}. Außerdem bietet Room optimierte Migrationspfade für Datenbanken und Annotationen, die wiederholenden und fehleranfälligen Boilerplate-Code minimieren. Aufgrund der Vorteile, die diese Bibliothek bietet, wird empfohlen Room zu verwenden, anstatt die SQLite-APIs direkt zu nutzen. \cite{room}
 
-Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access Objects (DAOs) und Entities, deren Beziehungen untereinander in Abbildung \ref{fig:RoomArchitektur} zu sehen sind. Die Datenbank stellt der Anwendung Instanzen der DAOs zu Verfügung, welche mit der Datenbank verknüpft sind. Die App kann diese DAOs verwenden, um Daten aus der Datenbank als Instanzen der zugehörigen Daten-Entitätsobjekte abzurufen. Außerdem kann die Anwendung die definierten Daten-Entities verwenden, um Zeilen aus den entsprechenden Tabellen zu aktualisieren, einzufügen oder zu löschen. \cite{room}
+Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access Objects (DAOs) und Entities, deren Beziehungen untereinander in Abbildung \ref{fig:RoomArchitektur} zu sehen sind. Die Datenbank stellt der Anwendung Instanzen der DAOs zur Verfügung, welche mit der Datenbank verknüpft sind und die App kann diese DAOs verwenden, um Daten aus der Datenbank als Instanzen der zugehörigen Data Entity Objects abzurufen. Außerdem kann die Anwendung die definierten Daten-Entities verwenden, um Zeilen aus den entsprechenden Tabellen zu aktualisieren, einzufügen oder zu löschen. \cite{room}
 
 \begin{figure}[H]
 	\centering
@@ -626,12 +636,12 @@ Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access O
 	\label{fig:RoomArchitektur}
 \end{figure}
 
-\noindent\textbf{Data entity} \\
-Entitäten werden definiert, um Objekte darzustellen, die gespeichert werden sollen. Dabei entspricht jede Entität einer Tabelle in der Datenbank und jede Instanz stellt eine Datenzeile dar. Der Vorteil bei der Verwendung von Room-Entitäten ist, dass ein Datenbankschema definierbar ist, ohne SQL-Code schreiben zu müssen. \cite{room_entities} 
+\noindent\textbf{Data Entity} \\
+Entities werden definiert, um Objekte darzustellen, die gespeichert werden sollen. Dabei entspricht jede Entitiy einer Tabelle in der Datenbank und jede Instanz stellt eine Datenzeile dar. Der Vorteil bei der Verwendung von Room-Entities ist, dass ein Datenbankschema definierbar ist, ohne SQL-Code schreiben zu müssen. \cite{room_entities} 
 
-Jede Room-Entität ist eine Klasse, die mit \lstinline{@Entity} annotiert ist und enthält Felder für jede Spalte in der entsprechenden Tabelle. Eine Room-Entität muss einen Primärschlüssel haben. Eine oder mehre Spalten können dabei mit \lstinline{@PrimaryKey} gekennzeichnet werden, welche dann den Primärschlüssel bilden. Das Listing \ref{lst:EntityCode} zeigt eine einfache Room-Entität, die eine Tabelle User mit den Spalten ID, Vorname und Nachname definiert, wobei die Spalte ID der Primärschlüssel ist. \cite{room_entities}
+Jede Room-Entitiy ist eine Klasse, die mit \lstinline{@Entity} annotiert ist und enthält Felder für jede Spalte in der entsprechenden Tabelle. Eine Room-Entitiy muss einen Primärschlüssel haben. Eine oder mehre Spalten können dabei mit \lstinline{@PrimaryKey} gekennzeichnet werden, welche dann den Primärschlüssel bilden. Das Listing \ref{lst:EntityCode} zeigt eine einfache Room-Entitiy, die eine Tabelle User mit den Spalten ID, Vorname und Nachname definiert, wobei die Spalte ID der Primärschlüssel ist. \cite{room_entities}
 
-\begin{lstlisting}[frame=lines, caption=Code einer Room Entität \cite{room_entities}, captionpos=b, label = lst:EntityCode, language=Kotlin, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Code einer Room-Entitiy \cite{room_entities}, captionpos=b, label = lst:EntityCode, language=Kotlin, showstringspaces=false]
 @Entity
 data class User(
     @PrimaryKey val id: Int,
@@ -641,9 +651,9 @@ data class User(
 \end{lstlisting}
 
 \noindent\textbf{DAO} \\
-Zum Speichern der Daten in der Anwendung, werden DAOs definiert, wobei jedes DAO Methoden enthält, die einen abstrakten Zugriff auf die Datenbank der App ermöglichen. DAOs erleichtern das Simulieren von Datenbankzugriffen beim Testen der App. \cite{room_daos}
+In der Anwendung werden zum Speichern der Daten DAOs definiert, wobei jedes DAO Methoden enthält, die einen abstrakten Zugriff auf die Datenbank der App ermöglichen. DAOs erleichtern das Simulieren von Datenbankzugriffen beim Testen der App. \cite{room_daos}
 
-Ein DAO kann als Schnittstelle oder abstrakte Klasse definiert werden, wobei normalerweise Schnittstellen verwendet werden. DAOs werden immer mit \lstinline{@Dao} annotiert. Um Datenbankinteraktionen zu definieren, gibt es zwei verschiedene Arten von DAO-Methoden. Einerseits die Convenience-Methoden, welche das Einfügen, Aktualisieren und Löschen von Zeilen in der Datenbank ermöglichen ohne SQL-Code zu schreiben. Andererseits die Query-Methoden, mit denen durch eigene SQL-Anweisungen Daten aus der Datenbank abgefragt werden können oder komplexere Einfügungen, Aktualisierungen und Löschungen durchgeführt werden können und sie dabei als DAO-Methoden darzustellen. Das Listing \ref{lst:DaoCode} zeigt ein einfaches DAO als \lstinline{UserDao}-Schnittstelle, welche sowohl die Convenience-Methoden \lstinline{@Insert} und \lstinline{@Delete}, als auch eine Query-Methode, die mittels eigenem SQL-Code alle User aus der Datenbank abruft, beinhaltet. \cite{room_daos}
+Ein DAO kann als Schnittstelle oder abstrakte Klasse definiert werden, wobei normalerweise Schnittstellen verwendet werden. DAOs werden immer mit \lstinline{@Dao} annotiert. Um Datenbankinteraktionen zu definieren, gibt es zwei verschiedene Arten von DAO-Methoden. Einerseits die Convenience-Methoden, welche das Einfügen, Aktualisieren und Löschen von Zeilen in der Datenbank ermöglichen, ohne SQL-Code zu schreiben. Andererseits die Query-Methoden, mit denen durch eigene SQL-Anweisungen Daten aus der Datenbank abgefragt werden können oder komplexere Einfügungen, Aktualisierungen und Löschungen durchgeführt werden können und sie dabei als DAO-Methoden darzustellen. Das Listing \ref{lst:DaoCode} zeigt ein einfaches DAO als \lstinline{UserDao}-Schnittstelle, welche sowohl die Convenience-Methoden \lstinline{@Insert} und \lstinline{@Delete} als auch eine Query-Methode, die mittels eigenem SQL-Code alle User*innen aus der Datenbank abruft, beinhaltet. \cite{room_daos}
 
 \begin{lstlisting}[frame=lines, caption=Code eines DAOs \cite{room_daos}, captionpos=b, label = lst:DaoCode, language=Kotlin, showstringspaces=false]
 @Dao
@@ -672,27 +682,27 @@ abstract class AppDatabase : RoomDatabase() {
 
 \section{WorkManager}
 
-Zuverlässige und akkuschonende Verarbeitung im Hintergrund sind eine große Herausforderung. Zusätzlich boten die verschiedenen Android-Versionen unterschiedliche Tools für Arbeiten im Hintergrund. Die Netzwerk- oder Speicherverfügbarkeit abzuhören und das automatische Wiederholen von Aufgaben war zum Beispiel mit viel Arbeit verbunden. \cite{workmanager_stable_release}
+Android fand, bei der Untersuchung der wichtigsten Probleme der Entwickler*innen, heraus, dass zuverlässige und akkuschonende Verarbeitung im Hintergrund eine große Herausforderung darstellt. Zusätzlich haben die verschiedenen Android-Versionen unterschiedliche Tools für Arbeiten im Hintergrund angeboten. Die Netzwerk- oder Speicherverfügbarkeit abzuhören und das automatische Wiederholen von Aufgaben war zum Beispiel mit viel Arbeit verbunden. \cite{workmanager_stable_release}
 
-WorkManager erleichtert die Arbeit im Hintergrund und berücksichtigt Einschränkungen, wie Akku-Optimierung, Speicherplatz oder Netzwerkverfügbarkeit. Der WorkManager führt diese Aufgaben nur aus, sofern die jeweiligen Bedingungen erfüllt sind. \cite{workmanager_stable_release} Die WorkManager-API stellt eine verbesserte Alternative für die Verwaltung von Hintergrundaufgaben in Android dar und löst damit alle früheren APIs in diesem Bereich ab, wie beispielsweise FirebaseJobDispatcher, GcmNetworkManager und Job Scheduler \cite{workmanager}. 
+WorkManager erleichtert die Arbeit im Hintergrund und berücksichtigt Einschränkungen wie Akku-Optimierung, Speicherplatz oder Netzwerkverfügbarkeit. Der WorkManager führt diese Aufgaben nur aus, sofern die jeweiligen Bedingungen erfüllt sind. \cite{workmanager_stable_release} Die WorkManager-API stellt eine verbesserte Alternative für die Verwaltung von Hintergrundaufgaben in Android dar und löst damit alle früheren APIs in diesem Bereich ab, wie beispielsweise \mbox{FirebaseJobDispatcher}, \mbox{GcmNetworkManager} und \mbox{Job Scheduler} \cite{workmanager}. 
 
-Die meisten Hintergrundverarbeitungen werden am besten durch persistente Arbeit erreicht, die auch nach einem Neustart der Anwendung oder des Systems geplant bleibt. WorkManager wird als Lösung für Hintergrundverarbeitung und daher auch für persistente Arbeit empfohlen. \cite{workmanager}
+Laut Android werden die meisten Hintergrundverarbeitungen am besten durch persistente Arbeit erreicht, die auch nach einem Neustart der Anwendung oder des Systems geplant bleibt. WorkManager wird als Lösung für Hintergrundverarbeitung und daher auch für persistente Arbeit empfohlen. \cite{workmanager}
 
-WorkManager kann folgende drei Arten von persistenter Arbeit verwalten, wie in „Types of persistent work“ aufgeführt. \cite{workmanager}
+Folgende drei Arten von persistenter Arbeit kann der WorkManager verwalten, wie in „Types of persistent work“ angeführt. \cite{workmanager}
 
 \begin{itemize} 
   \item \textbf{Immediate} \\ 
-        Sind Aufgaben, die sofort beginnen und zeitnah abgeschlossen werden müssen und auch beschleunigt werden können. Diese Aufgaben laufen einmalig. 
+        Das sind Aufgaben, die sofort beginnen und zeitnah abgeschlossen werden müssen und auch beschleunigt werden können. Diese Aufgaben laufen einmalig. 
   \item \textbf{Long Running} \\ 
-        Hierbei handelt es sich um Aufgaben, die länger dauern können, möglicherweise länger als 10 Minuten und einmalig oder periodisch ablaufen können. 
+        Hierbei handelt es sich um Aufgaben, die länger dauern können, möglicherweise länger als zehn Minuten und einmalig oder periodisch ablaufen können. 
   \item \textbf{Deferrable} \\ 
-        Sind geplante Aufgaben, die zu einem späteren Zeitpunkt beginnen und einmalig oder periodisch ausgeführt werden können. 
+        Dies sind geplante Aufgaben, die zu einem späteren Zeitpunkt beginnen und einmalig oder periodisch ausgeführt werden können. 
 \end{itemize}
 
-Neben der einfacheren und einheitlicheren API bietet der WorkManager auch eine Reihe andere wichtiger Vorteile \cite{workmanager}. 
+Neben der einfacheren und einheitlicheren API bietet der WorkManager auch eine Reihe weiterer Vorteile \cite{workmanager}. 
 
 \noindent\textbf{Arbeitsbeschränkungen} \\
-Mithilfe von Arbeitseinschränkungen ist es möglich die Bedingungen für die Ausführung der Arbeit zu definieren. Zum Beispiel soll die Arbeit nur ausgeführt werden, wenn sich das Gerät in einem Netzwerk befindet, das nicht gebührenpflichtig ist, wenn sich das Gerät im Leerlauf befindet oder wenn der Akku ausreichend geladen ist. \cite{workmanager}
+Mithilfe von Arbeitseinschränkungen ist es möglich, die Bedingungen für die Ausführung der Arbeit zu definieren. Die Arbeit soll zum Beispiel nur ausgeführt werden, wenn sich das Gerät in einem Netzwerk befindet, das nicht gebührenpflichtig ist, wenn sich das Gerät im Leerlauf befindet oder wenn der Akku ausreichend geladen ist. \cite{workmanager}
 
 \noindent\textbf{Robuste Planung} \\
 Einmalige oder wiederkehrende Arbeiten können mit WorkManager flexible geplant, gekennzeichnet und benannt werden, sodass austauschbare Arbeiten entstehen. Diese Arbeiten werden in einer internen verwalteten SQLite-Datenbank gespeichert und bleiben durch den WorkManager auch nach einem Neustart des Geräts erhalten. Zusätzlich hält sich der WorkManager an Energiesparfunktionen und bewährte Verfahren wie den Doze-Modus. \cite{workmanager}
@@ -704,7 +714,7 @@ Sofortige Arbeiten können mit WorkManager zur Ausführung im Hintergrund geplan
 Wenn die Arbeit fehlschlägt, bietet WorkManager flexible Wiederholungsrichtlinien inklusive einer konfigurierbaren exponentiellen Backoff-Richtline \cite{workmanager}. 
 
 \noindent\textbf{Arbeitsverkettung} \\
-Bei komplexen, zusammenhängenden Arbeiten können einzelne Arbeitsaufgaben verkettet werden und es kann gesteuert werden welche Teile nacheinander und welche parallel ablaufen sollen. Ausgabedaten werden bei der Verkettung automatisch von einer Arbeitsaufgabe an die nächste übergeben. \cite{workmanager}
+Bei komplexen, zusammenhängenden Arbeiten ist es möglich einzelne Arbeitsaufgaben zu verketten und es kann gesteuert werden, welche Teile nacheinander und welche parallel ablaufen sollen. Ausgabedaten werden bei der Verkettung automatisch von einer Arbeitsaufgabe an die nächste übergeben. \cite{workmanager}
 
 \noindent\textbf{Integrierte Threading-Interoperabilität} \\
 WorkManager kann problemlos in Coroutines und RxJava integriert werden und bietet die Möglichkeit, eigene asynchrone APIs einzubinden \cite{workmanager}.
@@ -712,52 +722,52 @@ WorkManager kann problemlos in Coroutines und RxJava integriert werden und biete
 
 \section{Navigation}
 
-Aktivitäten sind Einstiegspunkte in die Benutzeroberfläche einer App, aber ihre Unflexibilität bei der gemeinsamen Nutzung von Daten und Übergängen führt zu einer nicht idealen Architektur der In-App-Navigation. Aus diesem Grund hat sich die Navigations Komponente als Framework für die Strukturierung der In-App-Oberfläche durchgesetzt und dabei geht der Trend zur Single-Activity-App Architektur. \cite{android_jetpack_ueberblick}
+Aktivitäten sind Einstiegspunkte in die Benutzeroberfläche einer App, aber ihre Unflexibilität bei der gemeinsamen Nutzung von Daten und Übergängen führt zu einer nicht idealen Architektur der In-App-Navigation. Aus diesem Grund hat sich die Navigation Komponente als Framework für die Strukturierung der In-App-Oberfläche durchgesetzt und dabei geht der Trend zur Single-Activity-App Architektur. \cite{android_jetpack_ueberblick}
 
 
 \subsection{Prinzipien der Navigation}
 
-Die Navigation zwischen den verschiedenen Bildschirmen sind ein wesentlicher Bestandteil für das Benutzererlebnis und daher bilden gewisse Prinzipien die Grundlage einer einheitlichen Benutzererfahrung in den verschiedenen Anwendungen. Diese Grundsätze sind in der Navigations Komponente standardmäßig implementiert. \cite{navigation_prinzipien}
+Die Navigation zwischen den verschiedenen Bildschirmen sind ein wesentlicher Bestandteil für das Benutzererlebnis und daher bilden gewisse Prinzipien die Grundlage einer einheitlichen Benutzererfahrung in den verschiedenen Anwendungen. Diese Grundsätze sind in der Navigation Komponente standardmäßig implementiert. \cite{navigation_prinzipien}
 
-Jede App sollte ein fixes Anfangsziel besitzen, wenn sie vom Launcher aufgerufen wird, welche auch der letzte Bildschirm sein sollte, bevor zum Launcher zurückgekehrt wird \cite{navigation_prinzipien}. 
+Jede App sollte ein fixes Anfangsziel besitzen, wenn sie vom Launcher aufgerufen wird, welches auch der letzte Bildschirm sein sollte, bevor zum Launcher zurückgekehrt wird \cite{navigation_prinzipien}. 
 
-Das fixe Anfangsziel nach dem Starten einer App wird zum Basisziel des sogenannten Back Stacks und ist die Grundlage für den Navigationsstatus. Der aktuelle Bildschirm ist der oberste Teil des Stacks, die vorherigen Ziele befinden sich unterhalb im Stack und am unteren Ende des Stacks befindet sich immer das Anfangsziel. Änderungen wirken sich immer auf den obersten Teil des Stacks aus, indem entweder ein neues Ziel an die oberste Stelle des Stacks geschoben wird oder das oberste Ziel vom Stapel entfernt wird. \cite{navigation_prinzipien}
+Das fixe Anfangsziel nach dem Starten einer App wird zum Basisziel des sogenannten Backstacks und ist die Grundlage für den Navigationsstatus. Der aktuelle Bildschirm ist der oberste Teil des Stacks, die vorherigen Ziele befinden sich unterhalb im Stack und am unteren Ende des Stacks befindet sich immer das Anfangsziel. Änderungen wirken sich immer auf den obersten Teil des Stacks aus, indem entweder ein neues Ziel an die oberste Stelle des Stacks geschoben wird oder das oberste Ziel vom Stack entfernt wird. \cite{navigation_prinzipien}
 
 Die Schaltfläche Back in der Systemnavigationsleiste am unteren Rand des Bildschirms und die Schaltfläche Up in der App-Leiste am oberen Rand des Bildschirms verhalten sich innerhalb der App identisch. Beim Drücken von Back oder Up wird der aktuelle Bildschirm vom oberen Teil des Stacks entfernt und es wird zum vorherigen Bildschirm navigiert. Im Anfangsziel der App sollte die Schaltfläche Up jedoch nicht erscheinen, weil mit Up die App nie verlassen werden sollte. Im Gegensatz dazu ist die Schaltfläche Back im Anfangsziel ersichtlich und die App kann damit auch verlassen werden. \cite{navigation_prinzipien}
 
 
-\subsection{Navigations Komponente}
+\subsection{Navigation Komponente}
 
-Die Navigations Komponente von Android Jetpack erleichtert dem*der Entwickler*in die Implementierung der Navigation, von einfachen Klicks bis zu komplexen Mustern und die Einhaltung der Prinzipien. Die Komponente besteht aus drei Hauptbestandteilen, dem Navigation Graph, Navigation Host und dem Navigation Controller. \cite{navigation}
+Die Navigation Komponente von Android Jetpack erleichtert dem*der Entwickler*in die Implementierung der Navigation von einfachen Klicks bis zu komplexen Mustern und die Einhaltung der Prinzipien. Die Komponente besteht aus drei Hauptbestandteilen, dem Navigation Graph, Navigation Host und dem Navigation Controller. \cite{navigation}
 
 \noindent\textbf{Navigation Graph} \\
-Der Navigation Graph beinhaltet Ziele und mögliche Pfade, die ein*eine Benutzer*in durch die App nehmen kann \cite{navigation}. Zusätzlich dient er als „virtuelles“ Ziel, wobei der Navigation Graph selbst nicht am Back Stack erscheint, sondern die Navigation zum Navigation Graph dazu führt, dass das Anfangsziel dem Back Stack hinzugefügt wird \cite{navgraph}. 
+Der Navigation Graph beinhaltet Ziele und mögliche Pfade, die ein*eine Benutzer*in durch die App nehmen kann \cite{navigation}. Zusätzlich dient er als „virtuelles“ Ziel, wobei der Navigation Graph selbst nicht am Backstack erscheint, sondern die Navigation zum Navigation Graph dazu führt, dass das Anfangsziel dem Backstack hinzugefügt wird \cite{navgraph}. 
 
 Es gibt zwei unterschiedliche Möglichkeiten einen Navigation Graph zu konstruieren. Vor dem Release von Jetpack Compose war es nur möglich den Navigation Graph mit Aktivitäten und Fragmenten mit dem Navigation-Editor in Android Studio zu erzeugen. Bei dieser Variante wird der Navigation Graph und das Layout der Fragmente und Aktivitäten in einer XML-Datei abgespeichert. \cite{navigation_xml} Bei Jetpack Compose beinhaltet der Navigation Graph die Ziele als sogenannte Composables. Der Navigation Graph ist mit Kotlin geschrieben und die Composables sind Kotlin Funktionen mit einer \lstinline{@Composable}-Annotation. \cite{navigation_compose}
 
-Es ist aber auch möglich gemischte Anwendungen, bei denen der Navigation Graph sowohl Fragmente als auch Composables beinhalten, zu erzeugen. Bei diesen wird die fragmentbasierte Navigationskomponente verwendet und die Composables werden in den Fragmenten gehostet. \cite{navigation_compose}
+Es ist aber auch möglich, gemischte Anwendungen, bei denen der Navigation Graph sowohl Fragmente als auch Composables beinhalten, zu erzeugen. Bei diesen wird die fragmentbasierte Navigation Komponente verwendet und die Composables werden in den Fragmenten gehostet. \cite{navigation_compose}
 
 \noindent\textbf{Navigation Host} \\
-Der Navigation Host ist ein leerer Container, der die Ziele vom Navigation Graph anzeigt \cite{navigation}. Vor Compose war der Navigation Host immer eine XML-Datei und in Compose ist der \lstinline{NavHost} ein Composable, dass in Kotlin erstellt wird \cite{navigation_compose}. 
+Der Navigation Host ist ein leerer Container, der die Ziele vom Navigation Graph anzeigt \cite{navigation}. Vor Compose war der Navigation Host immer eine XML-Datei und in Compose ist der \lstinline{NavHost} ein Composable, das in Kotlin erstellt wird \cite{navigation_compose}. 
 
 \noindent\textbf{Navigation Controller} \\
-Der \lstinline{NavController} ist ein Objekt der den Austausch von Zielinhalten im \lstinline{NavHost} steuert, wenn sich der*die Benutzer*in durch die App bewegt. Während der Navigation durch die App, wird dem \lstinline{NavController} mitgeteilt, dass entweder entlang eines Pfades des Navigation Graph oder direkt zu einem bestimmten Ziel navigiert werden möchte. Der Navigation Controller zeigt anschließend das entsprechende Ziel im \lstinline{NavHost} an. \cite{navigation}
+Der \lstinline{NavController} ist ein Objekt, das den Austausch von Zielinhalten im \lstinline{NavHost} steuert, wenn sich der*die Benutzer*in durch die App bewegt. Während der Navigation durch die App wird dem \lstinline{NavController} mitgeteilt, dass entweder entlang eines Pfades des Navigation Graph oder direkt zu einem bestimmten Ziel navigiert werden möchte. Der Navigation Controller zeigt anschließend das entsprechende Ziel im \lstinline{NavHost} an. \cite{navigation}
 \\\\
-Für das Navigieren bei der fragmentbasierten Navigations Komponente stehen drei Varianten zur Verfügung. Das Gradle-Plugin Safe Args ist die von Android empfohlene Methode, um zwischen Zielen zu navigieren. Safe Args kann auch für die Übergabe von Daten zwischen Zielen verwendet werden. Eine weitere Möglichkeit ist es mit der Ressourcen-ID eines Ziels zu navigieren. Die dritte Möglichkeit verwendet die Methode \lstinline{navigate(NavDeepLinkRequest)} um direkt zu einem impliziten Deep-Link-Ziel zu navigieren. \cite{navigation_navigate}
+Für das Navigieren bei der fragmentbasierten Navigation Komponente stehen drei Varianten zur Verfügung. Das Gradle-Plugin Safe Args ist die von Android empfohlene Methode, um zwischen Zielen zu navigieren. Safe Args kann auch für die Übergabe von Daten zwischen Zielen verwendet werden. Eine weitere Möglichkeit ist es, mit der Ressourcen-ID eines Ziels zu navigieren. Die dritte Möglichkeit verwendet die Methode \lstinline{navigate(NavDeepLinkRequest)}, um direkt zu einem impliziten Deep-Link-Ziel zu navigieren. \cite{navigation_navigate}
 
 Bei der Verwendung von Jetpack Compose, wird die Methode \lstinline{navigate} mit einem \lstinline{String} Parameter, der die Route des Ziels darstellt, benutzt, um zu einem Composable zu navigieren. Navigation Compose unterstützt auch die Übergabe von Daten zwischen Composables, dazu werden in der Route Platzhalter für Argumente hinzufügt. \cite{navigation_compose}
 
-Bei jedem Aufruf der \lstinline{navigate}-Methode wird ein zusätzliches Ziel oben auf den Stack gelegt. Wenn in der App die Schaltfläche Up oder Back gedrückt wird, werden die Methoden \lstinline{NavController.navigateUp()} oder \lstinline{NavController.popBackStack()} aufgerufen, um damit das oberste Ziel vom Stack zu entfernen. \cite{navigation_navigate}
+Bei jedem Aufruf der \lstinline{navigate}-Methode wird ein zusätzliches Ziel, oben auf den Stack, gelegt. Wenn in der App die Schaltfläche Up oder Back gedrückt wird, werden die Methoden \lstinline{NavController.navigateUp()} oder \lstinline{NavController.popBackStack()} aufgerufen, um damit das oberste Ziel vom Stack zu entfernen. \cite{navigation_navigate}
 
 
 \chapter{Schluss}
 \label{chap:Schluss}
 
-Zusammenfassend kann gesagt werden, dass mit den in dieser Arbeit beschriebenen Architecture Komponenten von Android Jetpack der Programmieraufwand und auch die Menge an geschriebenen Code verringert werden kann. Das Verstehen des Konzepts von Aktivitäten hilft dabei, den Lebenszyklus besser zu verstehen, der in Beziehung mit ViewModel und LiveData unerwünschtes Verhalten und Abstürze der App verhindert. Zusätzlich sorgt LiveData dafür, dass in verschiedenen Szenarien aktuelle Daten zur Verfügung stehen und somit der*die Programmierer*in sich um diese Arbeit nicht mehr kümmern muss. Wenn es um das Arbeiten mit größeren Datensätzen geht, hilft die Komponente Paging, Netzwerkbandbreite und Systemressourcen effizienter zu nutzen. Zum Speichern kleiner und einfacher Datensätze steht in Jetpack die Komponente DataStore zur Verfügung, wird jedoch mit großen oder komplexen Datensätzen gearbeitet, steht in Jetpack die Komponente Room zur Verfügung, die den Zugriff auf eine SQLite-Datenbank vereinfacht. Die Komponente WorkManager erleichtert die Ausführung von Hintergrundprozessen und berücksichtigt dabei Einschränkungen, wie Akku-Optimierung, Speicherplatz oder Netzwerkverfügbarkeit. Die Prinzipien der Navigation werden von der Komponente Navigation schon standardmäßig eingehalten und zusätzlich nimmt sie dem*der Entwickler*in noch einiges an Arbeit bei der Implementierung ab. Bei allen Bedenken, die bei Einführung neuer Software-Komponenten oft vorliegen, ist zu erkennen, dass mit Android Jetpack die Möglichkeiten und Vorteile für den*die Entwickler*in überwiegen. 
+Zusammenfassend kann gesagt werden, dass mit den in dieser Arbeit beschriebenen Architecture Komponenten von Android Jetpack der Programmieraufwand und auch die Menge an geschriebenen Code verringert werden kann. Das Verstehen des Konzepts von Aktivitäten hilft dabei, den Lebenszyklus besser zu verstehen, der in Beziehung mit ViewModel und LiveData unerwünschtes Verhalten und Abstürze der App verhindert. Zusätzlich sorgt LiveData dafür, dass in verschiedenen Szenarien aktuelle Daten zur Verfügung stehen und somit der*die Programmierer*in sich um diese Arbeit nicht mehr kümmern muss. Wenn es um das Arbeiten mit größeren Datensätzen geht, hilft die Komponente Paging, Netzwerkbandbreite und Systemressourcen effizienter zu nutzen. Zum Speichern kleiner und einfacher Datensätze steht in Jetpack die Komponente DataStore zur Verfügung, wird jedoch mit großen oder komplexen Datensätzen gearbeitet, steht in Jetpack die Komponente Room zur Verfügung, die den Zugriff auf eine SQLite-Datenbank vereinfacht. Die Komponente WorkManager erleichtert die Ausführung von Hintergrundprozessen und berücksichtigt dabei Einschränkungen, wie Akku-Optimierung, Speicherplatz oder Netzwerkverfügbarkeit. Die Prinzipien der Navigation werden von der Komponente Navigation schon standardmäßig eingehalten und zusätzlich nimmt sie dem*der Entwickler*in noch einiges an Arbeit bei der Implementierung ab. Bei allen Bedenken, die bei Einführung neuer Software-Komponenten oft vorliegen, ist zu erkennen, dass mit Android Jetpack die Möglichkeiten und Vorteile für den*die Entwickler*in überwiegen.
 
-Aufgrund des begrenzten Umfangs der Bachelorarbeit wurde auf die DataBinding Komponente nicht eingegangen, da diese nur bei Apps deren UI in XML geschrieben ist, verwendet werden kann. Die Jetpack-Komponente Compose, die das Erstellen von UIs erleichtern soll, benötigt diese Komponente jedoch nicht mehr. Die in dieser Arbeit erwähnten Komponenten können sowohl bei XML basierten als auch bei UIs, die mit Compose erstellt wurden, verwendet werden. 
+Aufgrund des begrenzten Umfangs der Bachelorarbeit wurde auf die DataBinding Komponente nicht eingegangen, da diese nur bei Apps, deren UI in XML geschrieben ist, verwendet werden kann. Die Jetpack-Komponente Compose, die das Erstellen von UIs erleichtern soll, benötigt diese Komponente jedoch nicht mehr. Die in dieser Arbeit erwähnten Komponenten können sowohl bei XML basierten als auch bei UIs, die mit Compose erstellt wurden, verwendet werden. 
 
-In weiterführenden Arbeiten könnten die restlichen drei Kategorien, Foundation, Behavior und UI, welche die übrigen Jetpack-Bibliotheken enthalten, näher betrachtet werden. Komplexere Komponenten wie zum Beispiel Jetpack Compose, könnten auch im Detail analysiert werden.
+In weiterführenden Arbeiten könnten die restlichen drei Kategorien, Foundation, Behavior und UI, welche die übrigen Jetpack-Bibliotheken enthalten, näher betrachtet werden. Komplexere Komponenten, wie zum Beispiel Jetpack Compose, könnten auch im Detail analysiert werden.
 
 
 \newpage
