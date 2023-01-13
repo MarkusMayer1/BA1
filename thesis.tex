@@ -140,6 +140,20 @@
 
 \usepackage[title]{appendix}
 
+\usepackage{caption}
+
+\usepackage{varwidth}
+\DeclareCaptionFormat{myformat}{%
+  % #1: label (e.g. "Table 1")
+  % #2: separator (e.g. ": ")
+  % #3: caption text
+  \begin{varwidth}{\linewidth}%
+    \centering
+    #1#2#3%
+  \end{varwidth}%
+}
+\captionsetup{format=myformat}
+
 %paper format
 \geometry{a4paper,left=30mm,right=25mm, top=30mm, bottom=30mm}
 
@@ -202,7 +216,7 @@
 
 \hspace*{-1.0cm} \textbf{Betreuer:} \\
 \vspace{0.2cm}
-\hspace*{-1.0cm} MSc René Goldschmid \\
+\hspace*{-1.0cm} René Goldschmid, MSc \\
 
 \vspace{0.7cm}
 
@@ -268,6 +282,7 @@ Diese Arbeit betrachtet daher die Architecture Komponenten von Android Jetpack, 
             OMA      & Open Mobile Alliance \\
             IDE      & Integrated Development Enviroment \\
             DSL      & Domain Specific Language \\
+            API      & Application Programming Interface \\
             DAO      & Data Access Object \\
 		\end{tabular}
 \end{table*}
@@ -344,7 +359,7 @@ Mit Javas Ablöse als Standardprogrammiersprache wurde seitens Android jedoch we
 
 Android Studio ist seit 2013 die offizielle Integrated Development Environment (IDE) von Google für die Android-Softwareentwicklung. Um Android Studio zu entwickeln, ging Google eine Kooperation mit der tschechischen Firma JetBrains ein, die zu diesem Zeitpunkt mit IntelliJ IDEA eine der fortschrittlichsten Java IDEs am Markt hatten und auch heute noch haben. Android Studio basiert auf dieser leistungsstarken Entwicklungsumgebung, die von Google mit speziellen Funktionen für die Android-Entwicklung erweitert und angepasst wurde. Eine dieser Funktionen ist ein Build-System, das auf Gradle basiert und mit dem Android Gradle Plugin um einige Features erweitert wurde. Die aktuelle Version zum Zeitpunkt der Arbeit ist Android Studio Dolphin mit dem Versionscode 2021.3.1. Android Studio ist ein Open-Source-Projekt und steht auch frei zum Download zur Verfügung. \cite{android_studio}
 
-
+\newpage
 \section{Gradle}
 
 Gradle ist ein Build-Management-Automatisierungstool, das den automatischen Download und die Konfiguration von Abhängigkeiten und anderen Bibliotheken übernimmt \cite{Hassan2018}. Gradle stellt im Allgemeinen Standardwerte für Einstellungen und Eigenschaften bereit, daher ist der Einstieg für Entwickler*innen einfacher als bei Systemen wie Ant oder Maven, die davor die Standard Build-Systeme bei Android-Projekten waren. Wenn ein neues Projekt mit Android Studio angelegt wird, werden standardmäßig drei Gradle Files generiert. \cite{Pelgrims2015_1} Die Dateien \lstinline{settings.gradle} und \lstinline{build.gradle} befinden sich im Stammverzeichnis und eine weitere \lstinline{build.gradle} Datei wird im App Ordner angelegt. Die \lstinline{build.gradle} Datei im Stammverzeichnis wirkt sich auf jedes Modul des Projekts aus und die \lstinline{build.gradle} Datei im \lstinline{App} Ordner wirkt sich nur auf das \lstinline{App} Modul aus. In der \lstinline{settings.gradle} Datei werden die Repository-Einstellungen auf Projektebene definiert und Gradle mitgeteilt, welche Module bei Erstellung der Anwendung inkludiert werden sollen. Diese Gradle Dateien werden mit einer Domain Specific Language (DSL) geschrieben, wobei entweder Groovy oder Kotlin verwendet wird. \cite{Pelgrims2015_2}
@@ -358,8 +373,9 @@ Android Jetpack wurde von der Support Library inspiriert. Dabei handelt es sich 
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=\textwidth]{images/AndroidJetpackUebersicht.drawio.pdf}
-	\caption{Überblick über die Komponenten von Android Jetpack \cite{android_jetpack_ueberblick}}
-	\label{fig:AndroidJetpackUebersicht}
+    % \captionsetup{justification=centering}
+    \caption{Überblick über die Komponenten von Android Jetpack}{Quelle: In Anlehnung an \cite{android_jetpack_ueberblick}}
+    \label{fig:AndroidJetpackUebersicht}
 \end{figure}
 
 Android Jetpack ist eine Sammlung von Bibliotheken und soll Entwicklern*innen dabei helfen, Best Practices zu befolgen, Boilerplate-Code zu reduzieren und Code zu schreiben, der über alle Android-Versionen und -Geräte hinweg konsistent funktioniert \cite{android_jetpack}. Da die Komponenten so aufgebaut sind, dass ihre Funktionalität versionsunabhängig zur Verfügung steht, ist die Abwärtskompatibilität gewährleistet \cite{android_jetpack_ueberblick}. Damit haben Entwickler*innen mehr Zeit, sich auf den Code zu konzentrieren, der für ihre App wichtig ist, um leichter und schneller, robuste und hochwertige Apps zu entwickeln. 
@@ -376,7 +392,7 @@ Um mit den Android Jetpack-Komponenten zu starten, ist es wichtig zu wissen, wie
 
 Wird in Android Studio ein neues Compose Projekt angelegt, so wird die \lstinline{settings.gradle} Datei wie in Listing \ref{lst:settings.gradle} ersichtlich automatisch angelegt.
 
-\begin{lstlisting}[frame=lines, caption=\lstinline{settings.gradle} Datei, captionpos=b, label = lst:settings.gradle, language=Groovy, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=\lstinline{settings.gradle} Datei\\Quelle: Eigenes Listing, captionpos=b, label = lst:settings.gradle, language=Groovy, showstringspaces=false]
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -397,13 +413,13 @@ include ':app'
 
 Hier ist es wichtig, dass das \lstinline{google()} Repository in dem \lstinline{repositories} Block, welcher sich im \lstinline{dependencyResolutionManagement} Block befindet, eingetragen ist, um Jetpack-Komponenten vom Google Maven Repository verwenden zu können. Anschließend ist es möglich, in der \lstinline{build.gradle} Datei im \lstinline{App} Ordner, Jetpack-Komponenten hinzuzufügen. \cite{android_jetpack_getting_started} Um zum Beispiel die CameraX Komponente hinzuzufügen, wird innerhalb des Blocks der \lstinline{dependencies} die Codezeile, die in Listing \ref{lst:androidx.camera} zu sehen ist, hinzugefügt. 
 
-\begin{lstlisting}[frame=lines, caption=Codezeile zum Hinzufügen der CameraX Komponente, captionpos=b, label = lst:androidx.camera, language=Groovy, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Codezeile zum Hinzufügen der CameraX Komponente\\Quelle: Eigenes Listing, captionpos=b, label = lst:androidx.camera, language=Groovy, showstringspaces=false]
 implementation 'androidx.camera:camera-camera2:1.3.0-alpha02'
 \end{lstlisting}
 
 Im Listing \ref{lst:build.gradle} ist die \lstinline{build.gradle} Datei aus dem \lstinline{App} Ordner mit den Komponenten ersichtlich, die automatisch nach Anlegen des Projekts enthalten sind. Der \lstinline{android} Konfigurationsblock wurde in diesem Listing aufgrund seiner Größe nicht integriert.
 
-\begin{lstlisting}[frame=lines, caption=\lstinline{build.gradle} Datei im \lstinline{App} Ordner, captionpos=b, label = lst:build.gradle, language=Groovy, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=\lstinline{build.gradle} Datei im \lstinline{App} Ordner\\Quelle: Eigenes Listing, captionpos=b, label = lst:build.gradle, language=Groovy, showstringspaces=false]
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -435,7 +451,7 @@ Eine gewisse Anzahl an Jetpack-Bibliotheken bieten Android KTX Erweiterungen, we
 
 \section{Versionierung}
 
-Die Versionsnummer der verschiedenen Bibliotheken besteht aus drei Zahlen und hat bei Vorabversionen zusätzlich einen Suffix, der die jeweilige Vorabversionsphase angibt. Die erste Zahl von links beginnenden repräsentiert Major, die zweite Minor und die dritte das Bugfix-Level. Bei Vorabversionen wird hinter diesen drei Zahlen entweder Alpha, Beta oder Release Candidate hinzugefügt. Wobei Alpha für eine stabile Version steht, die jedoch noch nicht alle Features inkludiert hat. Bei Beta-Versionen handelt es sich wieder um stabile Versionen, die auch über eine vollständige API-Oberfläche verfügen, jedoch Fehler enthalten können. Release Candidate ist eine voraussichtlich stabile Version mit einer endgültigen API-Oberfläche. Bibliotheken, die keinen Suffix besitzen, sind sogenannte Stable-Versionen, die stabil laufen und alle Funktionen implementiert haben. Eine Bibliothek kann auch mehrere Versionen gleichzeitig besitzen, wobei jede Version ein anderes Release-Stadium hat. Eine Bibliothek kann beispielsweise eine Stable, eine Alpha- und eine Beta-Version gleichzeitig besitzen. \cite{androidx_releases}
+Die Versionsnummer der verschiedenen Bibliotheken besteht aus drei Zahlen und hat bei Vorabversionen zusätzlich einen Suffix, der die jeweilige Vorabversionsphase angibt. Die erste Zahl von links beginnenden repräsentiert Major, die zweite Minor und die dritte das Bugfix-Level. Bei Vorabversionen wird hinter diesen drei Zahlen entweder Alpha, Beta oder Release Candidate hinzugefügt. Wobei Alpha für eine stabile Version steht, die jedoch noch nicht alle Features inkludiert hat und Application Programming Interfaces (APIs) noch hinzugefügt, entfernt oder geändert werden können. Bei Beta-Versionen handelt es sich wieder um stabile Versionen, die auch über eine vollständige API-Oberfläche verfügen, jedoch Fehler enthalten können. Release Candidate ist eine voraussichtlich stabile Version mit einer endgültigen API-Oberfläche. Bibliotheken, die keinen Suffix besitzen, sind sogenannte Stable-Versionen, die stabil laufen und alle Funktionen implementiert haben. Eine Bibliothek kann auch mehrere Versionen gleichzeitig besitzen, wobei jede Version ein anderes Release-Stadium hat. Eine Bibliothek kann beispielsweise eine Stable, eine Alpha- und eine Beta-Version gleichzeitig besitzen. \cite{androidx_releases}
 
 
 \section{Activity}
@@ -487,7 +503,7 @@ Abbildung \ref{fig:Aktivitätslebenszyklus} zeigt die verschiedenen Callbacks in
 \begin{figure}[H]
 	\centering
 		\includegraphics[]{images/Aktivitaetslebenszyklus.drawio.pdf}
-	\caption{Callbacks im Aktivitätslebenszyklus \cite{android_lifecycle}}
+	\caption{Callbacks im Aktivitätslebenszyklus}{Quelle: In Anlehnung an \cite{android_lifecycle}}
 	\label{fig:Aktivitätslebenszyklus}
 \end{figure}
 
@@ -499,7 +515,7 @@ Die \lstinline{Lifecycle}-Klasse enthält Informationen über den Zustand des Le
 
 Im Listing \ref{lst:LifecycleObserverUndLifecycleOwner} ist die Klasse \lstinline{MyObserver}, die das Interface \lstinline{DefaultLifecycleObserver} implementiert, um den Lebenszyklusstatus des \lstinline{LifecycleOwners} zu überwachen und die beiden Methoden \lstinline{onResume} und \lstinline{onPause} überschreibt, zu sehen. Zusätzlich wird über das Objekt \lstinline{myLifecycleOwner}, welches die Schnittstelle \lstinline{LifecycleOwners} implementiert, ein Observer hinzugefügt, indem die Methode \lstinline{addObserver()} der \lstinline{Lifecycle}-Klasse aufgerufen wird und eine Instanz des \lstinline{Observers} übergeben wird \cite{android_architecture_lifecycle}.
 
-\begin{lstlisting}[frame=lines, caption=Beispeilcode für \lstinline{LifecycleObserver} und \lstinline{LifecycleOwner} \cite{android_architecture_lifecycle}, captionpos=b, label = lst:LifecycleObserverUndLifecycleOwner, language=Kotlin, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Beispeilcode für \lstinline{LifecycleObserver} und \lstinline{LifecycleOwner}\\Quelle: \cite{android_architecture_lifecycle}, captionpos=b, label = lst:LifecycleObserverUndLifecycleOwner, language=Kotlin, showstringspaces=false]
 class MyObserver : DefaultLifecycleObserver {
     override fun onResume(owner: LifecycleOwner) {
         connect()
@@ -541,7 +557,7 @@ Abbildung \ref{fig:ViewModelLebenszyklus} zeigt sowohl die unterschiedlichen Zus
 \begin{figure}[H]
 	\centering
 		\includegraphics[]{images/ViewModelLifecycle.drawio.pdf}
-	\caption{Lebenszyklus eines \lstinline{ViewModels} \cite{viewmodel_overview}}
+	\caption{Lebenszyklus eines \lstinline{ViewModels}}{Quelle: In Anlehnung an \cite{viewmodel_overview}}
 	\label{fig:ViewModelLebenszyklus}
 \end{figure}
 
@@ -596,7 +612,7 @@ Die Paging-Bibliothek ist in die Android-App-Architektur direkt integrierbar, wo
 \begin{figure}[H]
 	\centering
 		\includegraphics[width=\textwidth]{images/PagingBibliothekArchitektur.jpg}
-	\caption{Architektur der Paging-Bibliothek \cite{paging_overview}}
+	\caption{Architektur der Paging-Bibliothek}{Quelle: \cite{paging_overview}}
 	\label{fig:PagingBibliothekArchitektur}
 \end{figure}
 
@@ -632,7 +648,7 @@ Die drei wichtigsten Komponenten von Room sind die Room Datenbank, Data Access O
 \begin{figure}[H]
 	\centering
 		\includegraphics[]{images/RoomArchitektur.drawio.pdf}
-	\caption{Architektur der Room-Bibliothek \cite{room}}
+	\caption{Architektur der Room-Bibliothek}{Quelle: In Anlehnung an \cite{room}}
 	\label{fig:RoomArchitektur}
 \end{figure}
 
@@ -641,7 +657,7 @@ Entities werden definiert, um Objekte darzustellen, die gespeichert werden solle
 
 Jede Room-Entitiy ist eine Klasse, die mit \lstinline{@Entity} annotiert ist und enthält Felder für jede Spalte in der entsprechenden Tabelle. Eine Room-Entitiy muss einen Primärschlüssel haben. Eine oder mehre Spalten können dabei mit \lstinline{@PrimaryKey} gekennzeichnet werden, welche dann den Primärschlüssel bilden. Das Listing \ref{lst:EntityCode} zeigt eine einfache Room-Entitiy, die eine Tabelle User mit den Spalten ID, Vorname und Nachname definiert, wobei die Spalte ID der Primärschlüssel ist. \cite{room_entities}
 
-\begin{lstlisting}[frame=lines, caption=Code einer Room-Entitiy \cite{room_entities}, captionpos=b, label = lst:EntityCode, language=Kotlin, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Code einer Room-Entitiy\\Quelle: \cite{room_entities}, captionpos=b, label = lst:EntityCode, language=Kotlin, showstringspaces=false]
 @Entity
 data class User(
     @PrimaryKey val id: Int,
@@ -655,7 +671,7 @@ In der Anwendung werden zum Speichern der Daten DAOs definiert, wobei jedes DAO 
 
 Ein DAO kann als Schnittstelle oder abstrakte Klasse definiert werden, wobei normalerweise Schnittstellen verwendet werden. DAOs werden immer mit \lstinline{@Dao} annotiert. Um Datenbankinteraktionen zu definieren, gibt es zwei verschiedene Arten von DAO-Methoden. Einerseits die Convenience-Methoden, welche das Einfügen, Aktualisieren und Löschen von Zeilen in der Datenbank ermöglichen, ohne SQL-Code zu schreiben. Andererseits die Query-Methoden, mit denen durch eigene SQL-Anweisungen Daten aus der Datenbank abgefragt werden können oder komplexere Einfügungen, Aktualisierungen und Löschungen durchgeführt werden können und sie dabei als DAO-Methoden darzustellen. Das Listing \ref{lst:DaoCode} zeigt ein einfaches DAO als \lstinline{UserDao}-Schnittstelle, welche sowohl die Convenience-Methoden \lstinline{@Insert} und \lstinline{@Delete} als auch eine Query-Methode, die mittels eigenem SQL-Code alle User*innen aus der Datenbank abruft, beinhaltet. \cite{room_daos}
 
-\begin{lstlisting}[frame=lines, caption=Code eines DAOs \cite{room_daos}, captionpos=b, label = lst:DaoCode, language=Kotlin, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Code eines DAOs\\Quelle: \cite{room_daos}, captionpos=b, label = lst:DaoCode, language=Kotlin, showstringspaces=false]
 @Dao
 interface UserDao {
     @Insert
@@ -672,7 +688,7 @@ interface UserDao {
 \noindent\textbf{Datenbank} \\
 Die Datenbankklasse enthält die Datenbank, welche als Hauptzugriffspunkt für die Verbindung zu den persistierten Daten in der App dient. Diese Klasse muss eine abstrakte Klasse sein, die \lstinline{RoomDatabase} erweitert und eine \lstinline{@Database}-Annotation haben, welche ein Entity-Array enthält, das alle Data Entities auflistet, die mit der Datenbank verbunden sind. Die Datenbankklasse muss für jede DAO-Klasse, die mit der Datenbank verbunden ist, eine abstrakte Methode definieren, die keine Argumente hat und eine Instanz der DAO-Klasse zurückgibt. Im Listing \ref{lst:DatenbankCode} ist die abstrakte Klasse \lstinline{AppDatabase}, welche die \lstinline{RoomDatabase}-Klasse erweitert, mit \lstinline{@Database} annotiert ist und eine abstrakte Methode für das \lstinline{UserDao} definiert, zu sehen. \cite{room}
 
-\begin{lstlisting}[frame=lines, caption=Code der Room Datenbank \cite{room}, captionpos=b, label = lst:DatenbankCode, language=Kotlin, showstringspaces=false]
+\begin{lstlisting}[frame=lines, caption=Code der Room Datenbank\\Quelle: \cite{room}, captionpos=b, label = lst:DatenbankCode, language=Kotlin, showstringspaces=false]
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
